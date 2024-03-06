@@ -1,0 +1,26 @@
+
+.secondImage{
+    display: none;
+}
+
+
+
+@media (max-width: 992px)
+{
+    .firstImage
+    {
+        display: none;
+        width: 350px;
+    }
+    .secondImage{
+        width: 350px;
+        display: block;
+    }
+
+}
+
+@media (max-width: 767px)
+{
+
+
+}
