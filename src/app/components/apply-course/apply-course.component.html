@@ -16,32 +16,37 @@
   </div>
 </section>
 
-<div class="container d-flex justify-content-center" style="border-radius: 50px!important;">
-    <table class="table" >
-      <thead>
-        <tr>
-          @for (day of days; track $index) {
-            <th style="width: 100px;">{{ day }}</th>
-          }
-        </tr>
-      </thead>
-      <tbody>
-        @for (timeSlot of timeSlots; track $index) {
+<div class="container d-flex justify-content-center" >
+  <div class="row" >
+    <div class="col-md-12">
+      <table class="table">
+        <thead>
           <tr>
             @for (day of days; track $index) {
-              <td>
-                <button 
-              class="btn custom-btn " 
-              [ngClass]="{'buttonSelected': isSelected(timeSlot.time, day)}"
-              (click)="buttonClick(timeSlot.time, day)">
-              {{timeSlot.time}}
-            </button>
-              </td>
+              <th style="width: 100px;">{{ day }}</th>
             }
           </tr>
-        }
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          @for (timeSlot of timeSlots; track $index) {
+            <tr>
+              @for (day of days; track $index) {
+                <td>
+                  <button 
+                class="btn custom-btn " 
+                [ngClass]="{'buttonSelected': isSelected(timeSlot.time, day)}"
+                (click)="buttonClick(timeSlot.time, day)">
+                {{timeSlot.time}}
+              </button>
+                </td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
   </div>
 
   <section class="bg-light py-3" id="basvuru">
