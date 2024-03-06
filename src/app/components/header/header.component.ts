@@ -32,10 +32,8 @@ export class HeaderComponent {
 
     if(this.router.url.includes("courserInfo")){
       this.isHomePage = true;
-      console.log(this.isHomePage)
     }else{
       this.isHomePage=false;
-      console.log(this.isHomePage)
     }
 
 
