@@ -1,35 +1,57 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
-
+import { Store } from '@ngrx/store';
+import { AppState } from '../../state/reducers';
+import { getTextByType } from '../../state/texts/texts.selector';
+import { FEndText } from '../../models/textsModel';
+import { loadCertificates } from '../../state/photos/photos.actions';
+import { getCertificates } from '../../state/photos/photos.selector';
+import { Photo } from '../../models/photoModel';
 
 @Component({
   selector: 'app-certificates',
   standalone: true,
-  imports: [NgxExtendedPdfViewerModule],
+  imports: [],
   templateUrl: './certificates.component.html',
-  styleUrl: './certificates.component.css'
+  styleUrl: './certificates.component.css',
 })
 export class CertificatesComponent {
-
-  pdfSrc: string[] = [
-    'certificate1.pdf', 'certificate2.pdf', 'certificate3.pdf',
-    'certificate4.pdf', 'certificate5.pdf', 'certificate6.pdf',
-    'certificate7.pdf', 'certificate8.pdf', 'certificate9.pdf',
-    'certificate10.pdf'
-  ];
-
-  sanitizedUrls: string[] = [];
-
-  constructor(private sanitizer: DomSanitizer) {}
+  store = inject(Store<AppState>);
+  header: FEndText;
+  headerBoldText: FEndText;
+  headerDescription: FEndText;
+  certificates: Photo[] = [];
+  certificatesLoaded: boolean = false;
+  constructor() {}
 
   ngOnInit() {
-    this.pdfSrc.forEach(element => {
-      const assetPath = '/assets/certificates/';
-      const fullPath = `${assetPath}${element}`;
-      const sanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fullPath);
-      this.sanitizedUrls.push(fullPath);
-    });
+    this.getTexts();
+    this.loadCertificates();
   }
 
+  loadCertificates() {
+    this.store.select(getCertificates).subscribe((resp) => {
+      this.certificates = resp;
+    });
+
+    if (this.certificates.length == 0) {
+      this.store.dispatch(loadCertificates());
+
+      this.store.select(getCertificates).subscribe((resp) => {
+        this.certificates = resp;
+      });
+    }
+  }
+
+  getTexts() {
+    this.store.select(getTextByType, 12).subscribe((res) => {
+      this.header = res;
+    });
+    this.store.select(getTextByType, 13).subscribe((res) => {
+      this.headerBoldText = res;
+    });
+    this.store.select(getTextByType, 14).subscribe((res) => {
+      this.headerDescription = res;
+    });
+  }
 }

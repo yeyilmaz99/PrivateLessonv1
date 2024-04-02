@@ -1,0 +1,69 @@
+<div>
+    <div>
+      <h3>Gün Seçiniz:</h3>
+
+      @for (gun of gunler; track $index) {
+        <div >
+            <button (click)="saatleriGetir(gun)">{{ gun }}</button>
+          </div>
+      }
+    </div>
+  @if (seciliGun) {
+    <h3>Saat Seçiniz:</h3>
+    @for (saat of saatler; track $index) {
+        <button (click)="seciliSaat = saat">{{ saat }}</button>
+    }
+  }
+
+  
+    <div>
+      <button (click)="secimiEkle()">Seçimi Ekle</button>
+    </div>
+  
+    <div>
+      <h3>Seçilenler:</h3>
+      <ul>
+        @for (secim of secimler; track $index) {
+            <li>{{ secim.gun }} - {{ secim.saat }}</li>
+        }
+      </ul>
+    </div>
+  </div>
+  
+
+
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-6">
+        <h3>Gün Seçiniz:</h3>
+        @for (gun of gunler; track $index) {
+            <div >
+                <button (click)="saatleriGetir(gun)">{{ gun }}</button>
+              </div>
+          }
+      </div>
+  
+      @if (seciliGun) {
+        <h3>Saat Seçiniz:</h3>
+        @for (saat of saatler; track $index) {
+            <button (click)="seciliSaat = saat">{{ saat }}</button>
+        }
+      }
+    </div>
+  
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <button class="btn btn-success" (click)="secimiEkle()">Seçimi Ekle</button>
+      </div>
+    </div>
+  
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <h3>Seçilenler:</h3>
+        @for (secim of secimler; track $index) {
+            <li>{{ secim.gun }} - {{ secim.saat }}</li>
+        }
+      </div>
+    </div>
+  </div>
+  

@@ -6,6 +6,7 @@ import { CourserResumeComponent } from '../courser-resume/courser-resume.compone
 import { Store } from '@ngrx/store';
 import { AppState } from '../../state/reducers';
 import { Observable } from 'rxjs';
+import { getToggle } from '../../state/toggle/toggle.selector';
 
 @Component({
   selector: 'app-courser-info',
@@ -19,7 +20,7 @@ export class CourserInfoComponent {
   show:boolean = false;
 
   constructor(){
-    this.store.select('toggle').subscribe(res=> {
+    this.store.select(getToggle).subscribe(res=> {
       this.show = res
     })
   }
