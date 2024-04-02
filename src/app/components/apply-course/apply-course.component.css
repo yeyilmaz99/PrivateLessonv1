@@ -38,14 +38,19 @@ body {
     transition: background-color 0.3s;
   }
   .custom-btn.buttonSelected{
+    background-color: violet;
+  }
+  .custom-btn.buttonAlreadySelected{
     background-color: red;
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.5;
   }
   
   .custom-btn:hover {
     background-color: #45a049;
   }
   
-  /* Daha çekici buton stili için eklenen kodlar */
   .custom-btn.primary {
     background-color: #3498db;
   }
