@@ -12,7 +12,7 @@ import { map, mergeMap, of } from "rxjs";
 export class TextEffects{
     constructor(private actions$: Actions, private store: Store<AppState>, private router: Router, private textsService:TextsService) { }
 
-    loadBrands$ = createEffect(() => {
+    loadTexts$ = createEffect(() => {
         return this.actions$.pipe(ofType(loadTexts), mergeMap((action) => {
             // this.store.dispatch(setLoadingSpinner({status:true , from:"load brands"}))
             return this.textsService.getTexts().pipe(map((response) => {
