@@ -4,6 +4,7 @@ import { CourserResumeComponent } from './components/courser-resume/courser-resu
 import { ApplyCourseComponent } from './components/apply-course/apply-course.component';
 import { CertificatesComponent } from './components/certificates/certificates.component';
 import { ProjectsComponent } from './components/projects/projects.component';
+import { LoginComponent } from './components/auth/login/login.component';
 export const extraOptions: ExtraOptions = {scrollPositionRestoration:'enabled', anchorScrolling:'enabled' }
 export const routes: Routes = [
     {path:"", pathMatch:"full", redirectTo:"courserInfo"},
@@ -12,4 +13,5 @@ export const routes: Routes = [
     {path:"applyCourse", component:ApplyCourseComponent},
     {path:"certificates", component:CertificatesComponent},
     {path:"portfolio", component:ProjectsComponent},
+    {path:"login", component:LoginComponent}
   ];

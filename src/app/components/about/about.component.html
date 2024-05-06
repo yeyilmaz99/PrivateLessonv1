@@ -4,9 +4,71 @@
             <div class="col-xxl-8">
                 <div class="text-center my-5">
                     <h2 class="display-5 fw-bolder"><span class="text-gradient d-inline"
-                            style="font-size: 3rem;">{{header?.textString}}</span></h2>
+                        style="font-size: 3rem;">{{header?.textString}}</span></h2>
+                        @if(isAdmin | async){
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#aboutHeaderTextEditModal">Edit</button>
+    
+                        
+                            <!-- Modal -->
+                            <div class="modal fade" id="aboutHeaderTextEditModal" tabindex="-1" aria-labelledby="aboutHeaderTextEditModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="aboutHeaderTextEditModalLabel">Hakkımda</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form [formGroup]="updateHeaderForm">
+                                            <div class="row">
+                                                <div class="input-group input-group-sm mb-3">
+                                                    <span class="input-group-text" id="inputGroup-sizing-sm">Başlık</span>
+                                                    <input type="text" class="form-control" formControlName="text" placeholder="{{header?.textString}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                </div>                                              
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="updateHeader(header.id)">Değişiklikleri Uygula</button>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        }
                     <p class="lead fw-light mb-4" style="font-size: 2rem; font-weight: bold!important;">
                         "{{boldHeader?.textString}}"</p>
+                        @if(isAdmin | async){
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#aboutBoldTextEditModal">Edit</button>
+    
+                        
+                            <!-- Modal -->
+                            <div class="modal fade" id="aboutBoldTextEditModal" tabindex="-1" aria-labelledby="aboutBoldTextEditModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="aboutBoldTextEditModalLabel">Hakkımda</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form [formGroup]="updateBoldHeaderForm">
+                                        
+                                        <div class="row">
+                                            <div class="input-group input-group-sm mb-3">
+                                                <span class="input-group-text" id="inputGroup-sizing-sm">Alt Başlık<kbd></kbd></span>
+                                                <input type="text" class="form-control" formControlName="text"  placeholder="{{boldHeader?.textString}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                            </div>                                              
+                                        </div>
+                                    </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="updateBoldText(boldHeader.id)">Değişiklikleri Uygula</button>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        }
+                        
                     <p class="text-muted" style="font-size: larger;">
                         {{description?.textString}}
                     </p>
@@ -18,6 +80,43 @@
                         <a class="text-gradient" style="cursor: pointer;" (click)="toPage('instagram')"><i
                                 class="bi bi-instagram"></i></a>
                     </div>
+
+                    @if(isAdmin | async){
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#aboutEditModal">Edit</button>
+
+                    
+                        <!-- Modal -->
+                        <div class="modal fade" id="aboutEditModal" tabindex="-1" aria-labelledby="aboutEditModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="aboutEditModalLabel">Hakkımda Edit</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form [formGroup]="updateDescriptionForm">,
+                                 
+                                    <div class="row">
+                                        <div class="input-group input-group-sm mb-3">
+                                            <span class="input-group-text" id="inputGroup-sizing-sm">Açıklama</span>
+                                            <input type="text" class="form-control" formControlName="text" placeholder="{{description?.textString}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                        </div>
+                                          
+                                    </div>
+                                </form>
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="updateDescription(description.id)">Değişiklikleri Uygula</button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    }
+
+
+
+                    
                 </div>
             </div>
         </div>
