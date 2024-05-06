@@ -6,14 +6,142 @@
           <h2 class="display-5 fw-bolder">
             <span class="text-gradient d-inline" style="font-size: 3rem">{{header.textString}}</span>
           </h2>
+          @if(isAdmin | async){
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+            data-bs-target="#headerTextEditModal">Edit</button>
+  
+  
+          <!-- Modal -->
+          <div class="modal fade" id="headerTextEditModal" tabindex="-1" aria-labelledby="headerTextEditModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="headerTextEditModalLabel">Edit Header Text</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <form [formGroup]="updateHeaderForm">
+                    <div class="input-group input-group-sm mb-3">
+                      <span class="input-group-text" id="inputGroup-sizing-sm">Başlık</span>
+                      <input type="text" class="form-control" formControlName="text" placeholder="{{header?.textString}}"
+                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                    </div>
+                  </form>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="updateHeaderText(header.id)">Değişiklikleri Uygula</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          }
           <p class="lead fw-light mb-4" style="font-size: 2rem; font-weight: bold !important">
             "{{headerBoldText.textString}}"
           </p>
+          @if(isAdmin | async){
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+            data-bs-target="#headerBoldTextEditModal">Edit</button>
+          <!-- Modal -->
+          <div class="modal fade" id="headerBoldTextEditModal" tabindex="-1" aria-labelledby="headerBoldTextEditModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="headerBoldTextEditModalLabel">Edit Header Text</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <form [formGroup]="updateBoldTextForm">
+                    <div class="input-group input-group-sm mb-3">
+                      <span class="input-group-text" id="inputGroup-sizing-sm">Alt Başlık</span>
+                      <input type="text" class="form-control" formControlName="text" placeholder="{{headerBoldText?.textString}}"
+                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                    </div>
+                  </form>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="updateBoldText(headerBoldText.id)">Değişiklikleri Uygula</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          }
           <p class="text-muted" style="font-size: larger">
             {{headerDescription.textString}}
           </p>
-          <a class="text-gradient"><i class="bi bi-info-circle">
-              {{headerItalicText.textString}}</i></a>
+          @if(isAdmin | async){
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+            data-bs-target="#headerDescriptionEditModal">Edit</button>
+          <!-- Modal -->
+          <div class="modal fade" id="headerDescriptionEditModal" tabindex="-1" aria-labelledby="headerDescriptionEditModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="headerDescriptionEditModalLabel">Edit Header Text</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form [formGroup]="updateDescriptionForm">
+                  <div class="row">
+                    <div class="input-group input-group-sm mb-3">
+                      <span class="input-group-text" id="inputGroup-sizing-sm">Description</span>
+                      <input type="text" class="form-control" formControlName="text" placeholder="{{headerDescription  ?.textString}}"
+                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                    </div>
+                  </div>
+                </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="updateDescription(headerDescription.id)">Değişiklikleri Uygula</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          }
+          <p class="text-gradient"><i class="bi bi-info-circle">
+              {{headerItalicText.textString}}</i>
+          </p>
+          @if(isAdmin | async){
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+            data-bs-target="#headerItalicTextEditModal">Edit</button>
+          <!-- Modal -->
+          <div class="modal fade" id="headerItalicTextEditModal" tabindex="-1" aria-labelledby="headerItalicTextEditModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="headerItalicTextEditModalLabel">Edit Header Text</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <form [formGroup]="updateItalicTextForm">
+                    <div class="input-group input-group-sm mb-3">
+                      <span class="input-group-text" id="inputGroup-sizing-sm">Bilgi</span>
+                      <input type="text" class="form-control" formControlName="text" placeholder="{{headerItalicText?.textString}}"
+                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                    </div>
+                  </form>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="updateItalicText(headerItalicText.id)">Değişiklikleri Uygula</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          }
+              
         </div>
       </div>
     </div>
@@ -35,6 +163,43 @@
           <h3>{{photo.description}}</h3>
         </div>
       </div>
+
+      @if(isAdmin |async){
+        <button type="button" class="btn btn-primary" (click)="editPhotoModal(photo)" data-bs-toggle="modal"
+        data-bs-target="#projectEditModal">Edit</button>
+
+
+      <!-- Modal -->
+      <div class="modal fade" id="projectEditModal" tabindex="-1" aria-labelledby="projectEditModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="projectEditModalLabel">Edit Project</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="input-group input-group-sm mb-3">
+                  <span class="input-group-text" id="inputGroup-sizing-sm">Üst Yazı</span>
+                  <input type="text" class="form-control" placeholder="{{editPhoto?.description}}"
+                    aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div>
+                <div class="input-group mb-3">
+                  <label class="input-group-text" for="inputGroupFile01">Resim</label>
+                  <input type="file" class="form-control" id="inputGroupFile01">
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+              <button type="button" class="btn btn-primary">Değişiklikleri Uygula</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      }
+
     </div>
     }
 

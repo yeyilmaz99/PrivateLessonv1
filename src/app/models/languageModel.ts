@@ -3,3 +3,7 @@ export interface Language {
   userId: number;
   languageName: string;
 }
+
+export interface LanguageForUpdate{
+  languageName: string;
+}

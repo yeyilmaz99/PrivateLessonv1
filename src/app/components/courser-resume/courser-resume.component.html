@@ -34,7 +34,59 @@
                             <div class="col-lg-8">
                                 <div>{{experience.description}}</div>
                             </div>
+
+                            @if(isAdmin |async){
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" (click)="openExperienceEditModal(experience)" data-bs-target="#experienceEditModal">Edit</button>
+
+                    
+                                <!-- Modal -->
+                                <div class="modal fade" id="experienceEditModal" tabindex="-1" aria-labelledby="experienceEditModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="experienceEditModalLabel">Resume Edit</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="input-group input-group-sm mb-3">
+                                                    <span class="input-group-text" id="inputGroup-sizing-sm">Başlangıç Tarihi</span>
+                                                    <input type="text" class="form-control" placeholder="{{editExperience?.startDate}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                </div>
+                                                <div class="input-group input-group-sm mb-3">
+                                                    <span class="input-group-text" id="inputGroup-sizing-sm">Bitiş Tarihi</span>
+                                                    <input type="text" class="form-control" placeholder="{{editExperience?.endDate}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                </div>
+                                                <div class="input-group input-group-sm mb-3">
+                                                    <span class="input-group-text" id="inputGroup-sizing-sm">Başlık</span>
+                                                    <input type="text" class="form-control" placeholder="{{editExperience?.title}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                </div>
+                                                <div class="input-group input-group-sm mb-3">
+                                                    <span class="input-group-text" id="inputGroup-sizing-sm">İş Yeri</span>
+                                                    <input type="text" class="form-control" placeholder="{{editExperience?.company}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                </div>
+                                                <div class="input-group input-group-sm mb-3">
+                                                    <span class="input-group-text" id="inputGroup-sizing-sm">Şehir</span>
+                                                    <input type="text" class="form-control" placeholder="{{editExperience?.city}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                </div>
+                                                <div class="input-group input-group-sm mb-3">
+                                                    <span class="input-group-text" id="inputGroup-sizing-sm">Açıklama</span>
+                                                    <input type="text" class="form-control" placeholder="{{editExperience?.description}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                </div>
+                                                  
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                                        <button type="button" class="btn btn-primary">Değişiklikleri Uygula</button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div> 
+                            }
+
                         </div>
+
                     </div>
                 </div>
                 }
@@ -65,6 +117,63 @@
                             <div class="col-lg-8">
                                 <div>{{education.description}}</div>
                             </div>
+                            @if(isAdmin | async){
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" (click)="openEducationEditModal(education)" data-bs-target="#educationEditModal">Edit</button>
+
+                    
+                                <!-- Modal -->
+                                <div class="modal fade" id="educationEditModal" tabindex="-1" aria-labelledby="educationEditModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="educationEditModalLabel">Resume Edit</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form [formGroup]="updateEducationForm">
+                                            <div class="row">
+                                                <div class="input-group input-group-sm mb-3">
+                                                    <span class="input-group-text" id="inputGroup-sizing-sm">Başlangıç Tarihi</span>
+                                                    <input type="text" class="form-control" formControlName="startDate" placeholder="{{editEducation?.startDate}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                </div>
+                                                <div class="input-group input-group-sm mb-3">
+                                                    <span class="input-group-text" id="inputGroup-sizing-sm">Bitiş Tarihi</span>
+                                                    <input type="text" class="form-control" formControlName="endDate" placeholder="{{editEducation?.endDate}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                </div>
+                                                <div class="input-group input-group-sm mb-3">
+                                                    <span class="input-group-text" id="inputGroup-sizing-sm">Okul</span>
+                                                    <input type="text" class="form-control" formControlName="school" placeholder="{{editEducation?.school}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                </div>
+                                                <div class="input-group input-group-sm mb-3">
+                                                    <span class="input-group-text" id="inputGroup-sizing-sm">Departman</span>
+                                                    <input type="text" class="form-control" formControlName="department" placeholder="{{editEducation?.department}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                </div>
+                                                <div class="input-group input-group-sm mb-3">
+                                                    <span class="input-group-text" id="inputGroup-sizing-sm">Degree</span>
+                                                    <input type="text" class="form-control" formControlName="degree" placeholder="{{editEducation?.degree}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                </div>
+                                                <div class="input-group input-group-sm mb-3">
+                                                    <span class="input-group-text" id="inputGroup-sizing-sm">Eğitim</span>
+                                                    <input type="text" class="form-control" formControlName="type" placeholder="{{editEducation?.type}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                </div>
+                                                <div class="input-group input-group-sm mb-3">
+                                                    <span class="input-group-text" id="inputGroup-sizing-sm">Açıklama</span>
+                                                    <input type="text" class="form-control" formControlName="description" placeholder="{{editEducation?.description}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                </div>
+                                            </div>
+                                        </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="updateEducation(editEducation.id)" >Değişiklikleri Uygula</button>
+                                        </div>
+                                        
+                                    </div>
+                                    </div>
+                                </div>
+                            }
+
+
                         </div>
                     </div>
                 </div>
@@ -93,6 +202,36 @@
                                     <div class="d-flex align-items-center bg-light rounded-4 p-3 h-100">
                                         {{skill.skillName}}
                                     </div>
+
+                                    @if(isAdmin | async){
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" (click)="openSkillEditModal(skill)" data-bs-target="#skillEditModal">Edit</button>
+
+                    
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="skillEditModal" tabindex="-1" aria-labelledby="skillEditModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="skillEditModalLabel">Resume Edit</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="input-group input-group-sm mb-3">
+                                                            <span class="input-group-text" id="inputGroup-sizing-sm">Beceri Adı</span>
+                                                            <input type="text" class="form-control" placeholder="{{editSkill?.skillName}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                                                <button type="button" class="btn btn-primary">Değişiklikleri Uygula</button>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    }
+
                                 </div>
                                 }
                             </div>
@@ -112,6 +251,36 @@
                                     <div class="d-flex align-items-center bg-light rounded-4 p-3 h-100">
                                         <i>{{language.languageName}}</i>
                                     </div>
+
+                                    @if (isAdmin | async) {
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" (click)="openLanguageEditModal(language)" data-bs-target="#languageEditModal">Edit</button>
+
+                    
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="languageEditModal" tabindex="-1" aria-labelledby="languageEditModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="languageEditModalLabel">Resume Edit</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="input-group input-group-sm mb-3">
+                                                            <span class="input-group-text" id="inputGroup-sizing-sm">Yabancı Dil</span>
+                                                            <input type="text" class="form-control" placeholder="{{editLanguage?.languageName}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                                                <button type="button" class="btn btn-primary">Değişiklikleri Uygula</button>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    }
+
                                 </div>
                                 }
                             </div>

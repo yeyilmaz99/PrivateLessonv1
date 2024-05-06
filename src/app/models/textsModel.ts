@@ -4,3 +4,7 @@ export interface FEndText{
     type:number,
     photoId:number
 }
+
+export interface FETextToUpdateDto{
+    text:string
+}

@@ -4,8 +4,8 @@ import { TextsService } from "../../services/textService/texts.service";
 import { Store } from "@ngrx/store";
 import { AppState } from "../reducers";
 import { Router } from "@angular/router";
-import { loadTexts, loadTextsSucces } from "./texts.actions";
-import { map, mergeMap } from "rxjs";
+import { loadTexts, loadTextsSucces, updateText, updateTextSuccess } from "./texts.actions";
+import { map, mergeMap, of } from "rxjs";
 
 @Injectable()
 
@@ -22,5 +22,18 @@ export class TextEffects{
             }))
         }))
     })
+
+
+    updateText$ = createEffect(() => {
+        return this.actions$.pipe(ofType(updateText), mergeMap((action) => {
+            // this.store.dispatch(setLoadingSpinner({status:true, from:"update brand"}))
+          return this.textsService.updateTexts(action.id, action.text).pipe(mergeMap((data) => {
+            console.log("Effects içi"+action.id, action.text)
+            const updateTextSuccessAction = updateTextSuccess();
+            // this.store.dispatch(setLoadingSpinner({status:false, from:"update brand success"}))
+            return of(updateTextSuccessAction, loadTexts());
+          }))
+        }))
+      })
 
 }

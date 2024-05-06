@@ -7,11 +7,14 @@ import { FEndText } from '../../models/textsModel';
 import { loadMainPhotos } from '../../state/photos/photos.actions';
 import { getMainPhotos } from '../../state/photos/photos.selector';
 import { Photo } from '../../models/photoModel';
+import { Observable } from 'rxjs';
+import { isAdmin } from '../auth/state/auth.selector';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-portfolio',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, AsyncPipe],
   templateUrl: './portfolio.component.html',
   styleUrl: './portfolio.component.css',
 })
@@ -25,10 +28,11 @@ export class PortfolioComponent implements OnInit {
   photos: Photo[] = [];
   topPhoto: Photo;
   bottomPhoto: Photo;
-
+  isAdmin: Observable<boolean>;
   ngOnInit(): void {
     this.getTexts();
     this.getMainPhotos();
+    this.isAdmin = this.store.select(isAdmin)
   }
 
   getMainPhotos() {

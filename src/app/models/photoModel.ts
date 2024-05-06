@@ -10,3 +10,9 @@ export interface Photo {
   position: number;
   isCertificate: boolean;
 }
+
+export interface PhotoForUpdate{
+  imageData:File,
+  headerText:string,
+  description:string
+}

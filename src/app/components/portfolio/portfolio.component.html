@@ -21,6 +21,43 @@
             </div>
             <img class="img-fluid secondImage" style="width: 100%" src={{topPhoto?.url}} alt="..." />
           </div>
+          @if(isAdmin | async){
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#topPhotoEditModal">Edit</button>
+
+                    
+            <!-- Modal -->
+            <div class="modal fade" id="topPhotoEditModal" tabindex="-1" aria-labelledby="topPhotoEditModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="topPhotoEditModalLabel">Edit Portfolyo 1</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="input-group input-group-sm mb-3">
+                                <span class="input-group-text" id="inputGroup-sizing-sm">Üst Yazı</span>
+                                <input type="text" class="form-control" placeholder="{{topPhoto?.headerText}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                            </div>
+                            <div class="input-group input-group-sm mb-3">
+                                <span class="input-group-text" id="inputGroup-sizing-sm">Açıklama</span>
+                                <input type="text" class="form-control" placeholder="{{topPhoto?.description}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                            </div>
+                            <div class="input-group mb-3">
+                              <label class="input-group-text" for="inputGroupFile01">Fotoğraf</label>
+                              <input type="file" class="form-control" id="inputGroupFile01">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                    <button type="button" class="btn btn-primary">Değişiklikleri Uygula</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+          }
+
         </div>
         <!-- Project Card 2-->
         <div class="card overflow-hidden shadow rounded-4 border-0">
@@ -36,6 +73,43 @@
             </div>
             <img class="img-fluid secondImage" style="width: 100%" src={{bottomPhoto?.url}} alt="..." />
           </div>
+          @if(isAdmin | async){
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bottomPhotoEditModal">Edit</button>
+
+                    
+            <!-- Modal -->
+            <div class="modal fade" id="bottomPhotoEditModal" tabindex="-1" aria-labelledby="bottomPhotoEditModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="bottomPhotoEditModalLabel">Edit Portfolyo 2</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="input-group input-group-sm mb-3">
+                                <span class="input-group-text" id="inputGroup-sizing-sm">Üst Yazı</span>
+                                <input type="text" class="form-control" placeholder="{{bottomPhoto?.headerText}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                            </div>
+                            <div class="input-group input-group-sm mb-3">
+                                <span class="input-group-text" id="inputGroup-sizing-sm">Açıklama</span>
+                                <input type="text" class="form-control" placeholder="{{bottomPhoto?.description}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                            </div>
+                            <div class="input-group mb-3">
+                              <label class="input-group-text" for="inputGroupFile01">Fotoğraf</label>
+                              <input type="file" class="form-control" id="inputGroupFile01">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                    <button type="button" class="btn btn-primary">Değişiklikleri Uygula</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+          }
+
         </div>
         <div class="row justify-content-center mt-4">
           <div class="col-md-4" style="text-align: center">
@@ -47,13 +121,3 @@
   </div>
 </section>
 
-<!-- Call to action section-->
-<section class="py-5 bg-gradient-primary-to-secondary text-white">
-  <div class="container px-5 my-5">
-    <div class="text-center">
-      <h2 class="display-4 fw-bolder mb-4">Online Ders Fırsatını Kaçırma!</h2>
-      <a class="btn btn-outline-light btn-lg px-5 py-3 fs-6 fw-bolder" [routerLink]="['/applyCourse']"
-        [fragment]="'basvuru'" routerLinkActive="router-link-active">Hemen Başvur!</a>
-    </div>
-  </div>
-</section>

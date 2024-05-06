@@ -12,25 +12,44 @@ import { Language } from '../../models/languageModel';
 import { Skill } from '../../models/skillModel';
 import { Education } from '../../models/educationModel';
 import { getAllEducations } from '../../state/educations/educations.selector';
-import { loadEducations } from '../../state/educations/educations.actions';
+import { loadEducations, updateEducation } from '../../state/educations/educations.actions';
 import { getAllSkills } from '../../state/skills/skills.selector';
 import { loadSkills } from '../../state/skills/skills.actions';
+import { Observable } from 'rxjs';
+import { isAdmin } from '../auth/state/auth.selector';
+import { AsyncPipe } from '@angular/common';
+import { EducationService } from '../../services/educationService/education.service';
+import { ofType } from '@ngrx/effects';
+import { Form, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { EducationForUpdate } from '../../models/educationForUpdate';
 
 @Component({
   selector: 'app-courser-resume',
   standalone: true,
-  imports: [],
+  imports: [AsyncPipe,ReactiveFormsModule],
   templateUrl: './courser-resume.component.html',
   styleUrl: './courser-resume.component.css',
 })
 export class CourserResumeComponent implements OnInit {
   private store = inject(Store<AppState>);
+  private formBuilder = inject(FormBuilder);
+  private toastrService = inject(ToastrService)
   show: boolean = false;
   experiences: Experience[] = [];
   languages: Language[] = [];
   skills: Skill[] = [];
   educations: Education[] = [];
+  editExperience: Experience;
+  editEducation:Education;
+  editSkill:Skill;
+  editLanguage:Language;
+  isAdmin:Observable<boolean>;
 
+  updateSkillsForm:FormGroup;
+  updateLanguageForm:FormGroup;
+  updateEducationForm:FormGroup;
+  updateExperienceForm:FormGroup;
   constructor() {
     this.store.select(getToggle).subscribe((r) => {
       this.show = r;
@@ -41,6 +60,27 @@ export class CourserResumeComponent implements OnInit {
     this.getEducations();
     this.getLanguages();
     this.getSkills();
+    this.isAdmin = this.store.select(isAdmin);
+    this.createEducationUpdateForm();
+  }
+
+  openLanguageEditModal(language:Language){
+    this.editLanguage = language
+  }
+  openSkillEditModal(skill:Skill){
+    this.editSkill = skill
+  }
+
+  openEducationEditModal(education: Education) {
+    this.editEducation = education;
+  }
+
+  openExperienceEditModal(experience: Experience) {
+    this.editExperience = experience;
+  }
+
+  logla(input: any) {
+    console.log(input)
   }
 
   toggle() {
@@ -108,6 +148,30 @@ export class CourserResumeComponent implements OnInit {
       }
     });
   }
+
+  updateEducation(id:number){
+    if(!this.updateEducationForm.valid){
+      this.toastrService.error("An unexpected error occurred, Please try again");
+      return;
+    }
+    let education: EducationForUpdate = Object.assign({}, this.updateEducationForm.value);
+    this.store.dispatch(updateEducation({id, education}));
+    this.updateEducationForm.reset();
+    this.toastrService.success("Successfuly Updated");
+  }
+
+  createEducationUpdateForm(){
+    this.updateEducationForm = this.formBuilder.group({
+      startDate:[""],
+      endDate:[""],
+      school:[""],
+      department:[""],
+      degree:[""],
+      description:[""],
+      type:[""]
+    })
+  }
+
 
   scrolToTop() {
     document.body.scrollIntoView({ behavior: 'smooth', block: 'start' });

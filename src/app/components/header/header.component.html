@@ -8,6 +8,40 @@
                         <!-- TIP: For best results, use a photo with a transparent background like the demo example below-->
                         <!-- Watch a tutorial on how to do this on YouTube (link)-->
                         <img class="profile-img" style="border-radius: 20px;" src={{topPhoto?.url}} alt="..." />
+
+                        @if (isAdmin) {
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#headerPhotoEditModal">Edit</button>
+
+                    
+                            <!-- Modal -->
+                            <div class="modal fade" id="headerPhotoEditModal" tabindex="-1" aria-labelledby="headerPhotoEditModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="headerPhotoEditModalLabel">Header Edit</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form [formGroup]="updatePhotoForm">
+                                        <div class="row">
+                                            <div class="input-group input-group-sm mb-3">
+                                                <div class="input-group mb-3">
+                                                    <label class="input-group-text" for="inputGroupFile01">Fotoğraf</label>
+                                                    <input type="file" formControlName="imageData" class="form-control" id="inputGroupFile01" (change)="onFileSelected($event)">
+                                                  </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                                    <button type="button" (click)="updatePhoto(topPhoto.id)" class="btn btn-primary">Değişiklikleri Uygula</button>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        }
+
                         <div class="dots-1">
                             <!-- SVG Dots-->
                             <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -301,8 +335,73 @@
                     </div>
                     <div class="fs-3 fw-light text-muted mt-2" style="font-size: xx-large!important;">
                         {{header?.textString}}</div>
+                        @if(isAdmin){
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#headerTopEditModal">Edit</button>
+
+                
+                            <!-- Modal -->
+                            <div class="modal fade" id="headerTopEditModal" tabindex="-1" aria-labelledby="headerTopEditModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="headerTopEditModalLabel">Header Edit</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form [formGroup]="updateTopTextForm">
+                                        
+                                        <div class="row">
+                                            <div class="input-group input-group-sm mb-3">
+                                                <span class="input-group-text" id="inputGroup-sizing-sm">Üst Yazı</span>
+                                                <input type="text" class="form-control" formControlName="text" placeholder="{{header?.textString}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                            </div>
+                                        </div>
+                                    </form>
+                                    </div>
+                                    
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="updateTopTextString(header.id)">Değişiklikleri Uygula</button>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        }
+
                     <h1 class=" fw-bolder mt-2 mb-4"><span class="text-gradient d-inline">
                             "{{coloredHeader?.textString}}" </span></h1>
+
+                            @if(isAdmin){
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#headerBottomEditModal">Edit</button>
+
+                    
+                                <!-- Modal -->
+                                <div class="modal fade" id="headerBottomEditModal" tabindex="-1" aria-labelledby="headerBottomEditModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="headerBottomEditModalLabel">Header Edit</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form [formGroup]="updateBottomTextForm">
+                                            <div class="row">
+                                                <div class="input-group input-group-sm mb-3">
+                                                    <span class="input-group-text" id="inputGroup-sizing-sm">Renkli Yazı</span>
+                                                    <input type="text" class="form-control" formControlName="text" placeholder="{{coloredHeader?.textString}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                </div>
+                                            </div>
+                                        </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="updateBottomTextString(coloredHeader.id)">Değişiklikleri Uygula</button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            }
+
                     <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xxl-start mb-3">
                         <a class="btn btn-primary btn-lg px-5 py-3 me-sm-3 fs-6 fw-bolder"
                             [routerLink]="['/applyCourse']" [fragment]="'basvuru'"
@@ -310,7 +409,6 @@
                         @if (isHomePage) {
                         <a class="btn btn-outline-dark btn-lg px-5 py-3 fs-6 fw-bolder" [routerLink]="['']"
                             [fragment]="'resume'" (click)="toggle()" routerLinkActive="router-link-active">{{title}}</a>
-
                         }
                     </div>
                 </div>

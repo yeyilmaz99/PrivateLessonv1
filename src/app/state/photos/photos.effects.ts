@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { AppState } from '../reducers';
 import { Router } from '@angular/router';
-import { map, mergeMap } from 'rxjs';
+import { map, mergeMap, of } from 'rxjs';
 import {
   loadCertificates,
   loadCertificatesSuccess,
@@ -11,6 +11,8 @@ import {
   loadMainPhotosSuccess,
   loadPhotos,
   loadPhotosSuccess,
+  updatePhoto,
+  updatePhotoSuccess,
 } from './photos.actions';
 import { PhotoService } from '../../services/photoService/photo.service';
 
@@ -67,4 +69,20 @@ export class PhotosEffects {
       })
     );
   });
+
+
+  updatePhotos$ = createEffect(() => {
+    return this.actions$.pipe(ofType(updatePhoto), mergeMap((action) => {
+      return this.photosService.updatePhoto(action.id, action.formData).pipe(mergeMap((data) => {
+        const updatePhotosSuccessAction = updatePhotoSuccess();
+        return of(updatePhotosSuccessAction, this.getPhotos());
+      }))
+    }))
+  })
+
+  getPhotos(){
+    loadPhotos(),
+    loadMainPhotos();
+    loadCertificates();
+  }
 }

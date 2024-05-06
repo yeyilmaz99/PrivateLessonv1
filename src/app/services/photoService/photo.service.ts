@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ListResponseModel } from '../../models/listResponseModel';
-import { Photo } from '../../models/photoModel';
+import { Photo, PhotoForUpdate } from '../../models/photoModel';
+import { ResponseModel } from '../../models/responseModel';
 
 @Injectable({
   providedIn: 'root',
@@ -24,5 +25,10 @@ export class PhotoService {
   getCertificates(): Observable<ListResponseModel<Photo>> {
     let newPath = this.apiPath + 'GetCertificates';
     return this.http.get<ListResponseModel<Photo>>(newPath);
+  }
+
+  updatePhoto(id:number, formData:FormData):Observable<ResponseModel>{
+    let newPath = this.apiPath + `?id=${id}`;
+    return this.http.patch<ResponseModel>(newPath, formData);
   }
 }

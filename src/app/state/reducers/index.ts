@@ -30,6 +30,9 @@ import { SkillsEffects } from '../skills/skills.effects';
 import { applicantsReducer } from '../applicants/applicants.reducer';
 import { ApplicantsState } from '../applicants/applicants.state';
 import { ApplicantsEffects } from '../applicants/applicants.effects';
+import { AuthState } from '../../components/auth/state/auth.state';
+import { AuthReducer } from '../../components/auth/state/auth.reducer';
+import { AuthEffects } from '../../components/auth/state/auth.effects';
 
 export interface AppState {
   toggleState: ToggleState;
@@ -40,6 +43,7 @@ export interface AppState {
   languagesState: LanguagesState;
   skillsState: SkillsState;
   applicantsState: ApplicantsState;
+  authState:AuthState
 }
 
 export const reducers: ActionReducerMap<AppState> = {
@@ -51,6 +55,7 @@ export const reducers: ActionReducerMap<AppState> = {
   languagesState: languagesReducer,
   skillsState: skillsReducer,
   applicantsState: applicantsReducer,
+  authState:AuthReducer
 };
 
 export const effects: (Type<unknown> | Record<string, FunctionalEffect>)[] = [
@@ -61,6 +66,7 @@ export const effects: (Type<unknown> | Record<string, FunctionalEffect>)[] = [
   LanguagesEffects,
   SkillsEffects,
   ApplicantsEffects,
+  AuthEffects
 ];
 
 export const metaReducers: MetaReducer<AppState>[] = isDevMode() ? [] : [];
