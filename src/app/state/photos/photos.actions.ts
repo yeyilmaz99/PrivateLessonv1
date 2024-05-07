@@ -14,7 +14,7 @@ export const LOAD_PHOTOS_SUCCESS = '[Photos] Load Photos Success';
 export const UPDATE_PHOTO = '[Photos] Update Photo';
 export const UPDATE_PHOTO_SUCCESS = '[Photos] Update Photo Success';
 
-export const updatePhoto = createAction(UPDATE_PHOTO, props<{id:number,formData:FormData}>())
+export const updatePhoto = createAction(UPDATE_PHOTO, props<{id:number, isMain:boolean, isCertificate:boolean,formData:FormData}>())
 export const updatePhotoSuccess = createAction(UPDATE_PHOTO_SUCCESS)
 
 export const loadMainPhotos = createAction(LOAD_MAIN_PHOTOS);
