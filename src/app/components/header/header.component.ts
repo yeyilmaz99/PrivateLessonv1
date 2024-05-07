@@ -106,7 +106,7 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  updatePhoto(id:number){
+  updatePhoto(id:number, isMain:boolean, isCertificate:boolean){
     if(!this.updatePhotoForm.valid){
       this.toastrService.error("An unexpected error occurred, Please try again");
       return;
@@ -117,7 +117,7 @@ export class HeaderComponent implements OnInit {
 
     const blob = new Blob([photo.imageData], {type:'image/jpeg'})
     formData.append('ImageData', blob, 'image.png');
-    this.store.dispatch(updatePhoto({id, formData}));
+    this.store.dispatch(updatePhoto({id,isMain,isCertificate,formData}));
     this.updatePhotoForm.reset();
     this.toastrService.success("Successfuly Updated");
     this.store.dispatch(loadMainPhotos());
