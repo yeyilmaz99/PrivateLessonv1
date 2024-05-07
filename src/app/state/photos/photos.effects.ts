@@ -76,8 +76,14 @@ export class PhotosEffects {
         // this.store.dispatch(setLoadingSpinner({status:true, from:"update brand"}))
       return this.photosService.updatePhoto(action.id, action.formData).pipe(mergeMap((data) => {
         const updatePhotoSuccessAction = updatePhotoSuccess();
-        // this.store.dispatch(setLoadingSpinner({status:false, from:"update brand success"}))
-        return of(updatePhotoSuccessAction, loadPhotos(),loadMainPhotos(),loadCertificates());
+
+        if(action.isMain){
+          return of(updatePhotoSuccessAction, loadMainPhotos());
+        }else if(action.isCertificate){
+          return of(updatePhotoSuccessAction, loadPhotos());
+        }else{
+          return of(updatePhotoSuccessAction, loadPhotos(),loadMainPhotos(),loadCertificates());
+        }
       }))
     }))
   })
