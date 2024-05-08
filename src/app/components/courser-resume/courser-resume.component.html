@@ -48,37 +48,39 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
+                                            <form [formGroup]="updateExperienceForm">
                                             <div class="row">
                                                 <div class="input-group input-group-sm mb-3">
                                                     <span class="input-group-text" id="inputGroup-sizing-sm">Başlangıç Tarihi</span>
-                                                    <input type="text" class="form-control" placeholder="{{editExperience?.startDate}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                    <input type="text" class="form-control" formControlName="startDate" placeholder="{{editExperience?.startDate}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                                                 </div>
                                                 <div class="input-group input-group-sm mb-3">
                                                     <span class="input-group-text" id="inputGroup-sizing-sm">Bitiş Tarihi</span>
-                                                    <input type="text" class="form-control" placeholder="{{editExperience?.endDate}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                    <input type="text" class="form-control" formControlName="endDate" placeholder="{{editExperience?.endDate}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                                                 </div>
                                                 <div class="input-group input-group-sm mb-3">
                                                     <span class="input-group-text" id="inputGroup-sizing-sm">Başlık</span>
-                                                    <input type="text" class="form-control" placeholder="{{editExperience?.title}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                    <input type="text" class="form-control" formControlName="title" placeholder="{{editExperience?.title}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                                                 </div>
                                                 <div class="input-group input-group-sm mb-3">
                                                     <span class="input-group-text" id="inputGroup-sizing-sm">İş Yeri</span>
-                                                    <input type="text" class="form-control" placeholder="{{editExperience?.company}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                    <input type="text" class="form-control" formControlName="company" placeholder="{{editExperience?.company}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                                                 </div>
                                                 <div class="input-group input-group-sm mb-3">
                                                     <span class="input-group-text" id="inputGroup-sizing-sm">Şehir</span>
-                                                    <input type="text" class="form-control" placeholder="{{editExperience?.city}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                    <input type="text" class="form-control" formControlName="city" placeholder="{{editExperience?.city}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                                                 </div>
                                                 <div class="input-group input-group-sm mb-3">
                                                     <span class="input-group-text" id="inputGroup-sizing-sm">Açıklama</span>
-                                                    <input type="text" class="form-control" placeholder="{{editExperience?.description}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                    <input type="text" class="form-control" formControlName="description" placeholder="{{editExperience?.description}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                                                 </div>
                                                   
                                             </div>
+                                        </form>
                                         </div>
                                         <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
-                                        <button type="button" class="btn btn-primary">Değişiklikleri Uygula</button>
+                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal"(click)="updateExperience(editExperience.id)">Değişiklikleri Uygula</button>
                                         </div>
                                     </div>
                                     </div>
