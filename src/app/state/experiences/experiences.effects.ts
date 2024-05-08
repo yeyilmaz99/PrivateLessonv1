@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, mergeMap } from 'rxjs';
+import { map, mergeMap, of } from 'rxjs';
 import { ExperienceService } from '../../services/experienceService/experience.service';
-import { loadExperiences, loadExperiencesSuccess } from './experiences.actions';
+import { loadExperiences, loadExperiencesSuccess, updateExperience, updateExperienceSuccess } from './experiences.actions';
 
 @Injectable()
 export class ExperiencesEffects {
@@ -25,4 +25,17 @@ export class ExperiencesEffects {
       })
     );
   });
+
+
+
+  updateExperience$ = createEffect(() => {
+    return this.actions$.pipe(ofType(updateExperience), mergeMap((action) => {
+      return this.experienceService.updateExperience(action.id, action.experience).pipe(mergeMap((data) => {
+        const updateBrandSuccessAction = updateExperienceSuccess();
+        return of(updateBrandSuccessAction, loadExperiences());
+      }))
+    }))
+  })
+
+
 }
