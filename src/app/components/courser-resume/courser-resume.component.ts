@@ -4,7 +4,7 @@ import { AppState } from '../../state/reducers';
 import { makeItFalse, makeItTrue } from '../../state/toggle/toggle.actions';
 import { getToggle } from '../../state/toggle/toggle.selector';
 import { getAllExperiences } from '../../state/experiences/experiences.selector';
-import { loadExperiences } from '../../state/experiences/experiences.actions';
+import { loadExperiences, updateExperience } from '../../state/experiences/experiences.actions';
 import { Experience } from '../../models/experienceModel';
 import { getAllLanguages } from '../../state/languages/languages.selector';
 import { loadLanguages } from '../../state/languages/languages.actions';
@@ -23,6 +23,7 @@ import { ofType } from '@ngrx/effects';
 import { Form, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { EducationForUpdate } from '../../models/educationForUpdate';
+import { ExperienceForUpdate } from '../../models/experienceForUpdateDto';
 
 @Component({
   selector: 'app-courser-resume',
@@ -61,7 +62,7 @@ export class CourserResumeComponent implements OnInit {
     this.getLanguages();
     this.getSkills();
     this.isAdmin = this.store.select(isAdmin);
-    this.createEducationUpdateForm();
+    this.createForms()
   }
 
   openLanguageEditModal(language:Language){
@@ -170,6 +171,34 @@ export class CourserResumeComponent implements OnInit {
       description:[""],
       type:[""]
     })
+  }
+
+  createExperienceUpdateForm(){
+    this.updateExperienceForm = this.formBuilder.group({
+      startDate:[""],
+      endDate:[""],
+      title:[""],
+      company:[""],
+      city:[""],
+      description:[""]
+    })
+  }
+
+  updateExperience(id:number){
+    if(!this.updateExperienceForm.valid){
+      this.toastrService.error("An unexpected error occurred, Please try again");
+      return;
+    }
+    let experience: ExperienceForUpdate = Object.assign({}, this.updateExperienceForm.value);
+    this.store.dispatch(updateExperience({id, experience}));
+    this.updateExperienceForm.reset();
+    this.toastrService.success("Successfuly Updated");
+  }
+
+
+  createForms(){
+    this.createEducationUpdateForm();
+    this.createExperienceUpdateForm();
   }
 
 
