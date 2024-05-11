@@ -218,16 +218,20 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
+                                                    <form [formGroup]="updateSkillsForm">
+                                                
                                                     <div class="row">
                                                         <div class="input-group input-group-sm mb-3">
                                                             <span class="input-group-text" id="inputGroup-sizing-sm">Beceri Adı</span>
-                                                            <input type="text" class="form-control" placeholder="{{editSkill?.skillName}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                            <input type="text" class="form-control" formControlName="skillName" placeholder="{{editSkill?.skillName}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                                                         </div>
                                                     </div>
+
+                                                </form>
                                                 </div>
                                                 <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
-                                                <button type="button" class="btn btn-primary">Değişiklikleri Uygula</button>
+                                                <button type="button" class="btn btn-primary"data-bs-dismiss="modal" (click)="updateSkill(editSkill.id)">Değişiklikleri Uygula</button>
                                                 </div>
                                             </div>
                                             </div>
@@ -268,15 +272,17 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="row">
+                                                        <form [formGroup]="updateLanguageForm">
                                                         <div class="input-group input-group-sm mb-3">
                                                             <span class="input-group-text" id="inputGroup-sizing-sm">Yabancı Dil</span>
-                                                            <input type="text" class="form-control" placeholder="{{editLanguage?.languageName}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                            <input type="text" class="form-control" formControlName="languageName" placeholder="{{editLanguage?.languageName}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                                                         </div>
+                                                    </form>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
-                                                <button type="button" class="btn btn-primary">Değişiklikleri Uygula</button>
+                                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="updateLanguage(editLanguage.id)">Değişiklikleri Uygula</button>
                                                 </div>
                                             </div>
                                             </div>
