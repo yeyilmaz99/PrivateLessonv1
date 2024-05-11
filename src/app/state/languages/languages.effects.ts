@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { LanguageService } from '../../services/languageService/language.service';
-import { loadLanguages, loadLanguagesSuccess } from './languages.actions';
-import { map, mergeMap } from 'rxjs';
+import { loadLanguages, loadLanguagesSuccess, updateLanguage, updateLanguageSuccess } from './languages.actions';
+import { map, mergeMap, of } from 'rxjs';
 
 @Injectable()
 export class LanguagesEffects {
@@ -25,4 +25,16 @@ export class LanguagesEffects {
       })
     );
   });
+
+  updateLanguage$ = createEffect(() => {
+    return this.actions$.pipe(ofType(updateLanguage), mergeMap((action) => {
+        // this.store.dispatch(setLoadingSpinner({status:true, from:"update brand"}))
+      return this.languageService.updateLanguage(action.id, action.language).pipe(mergeMap((data) => {
+        const updateLanguageSuccessAction = updateLanguageSuccess();
+        // this.store.dispatch(setLoadingSpinner({status:false, from:"update brand success"}))
+        return of(updateLanguageSuccessAction, loadLanguages());
+      }))
+    }))
+  })
+
 }
