@@ -7,14 +7,14 @@ import { getAllExperiences } from '../../state/experiences/experiences.selector'
 import { loadExperiences, updateExperience } from '../../state/experiences/experiences.actions';
 import { Experience } from '../../models/experienceModel';
 import { getAllLanguages } from '../../state/languages/languages.selector';
-import { loadLanguages } from '../../state/languages/languages.actions';
-import { Language } from '../../models/languageModel';
-import { Skill } from '../../models/skillModel';
+import { loadLanguages, updateLanguage } from '../../state/languages/languages.actions';
+import { Language, LanguageForUpdate } from '../../models/languageModel';
+import { Skill, SkillForUpdate } from '../../models/skillModel';
 import { Education } from '../../models/educationModel';
 import { getAllEducations } from '../../state/educations/educations.selector';
 import { loadEducations, updateEducation } from '../../state/educations/educations.actions';
 import { getAllSkills } from '../../state/skills/skills.selector';
-import { loadSkills } from '../../state/skills/skills.actions';
+import { loadSkills, updateSkill } from '../../state/skills/skills.actions';
 import { Observable } from 'rxjs';
 import { isAdmin } from '../auth/state/auth.selector';
 import { AsyncPipe } from '@angular/common';
@@ -46,7 +46,6 @@ export class CourserResumeComponent implements OnInit {
   editSkill:Skill;
   editLanguage:Language;
   isAdmin:Observable<boolean>;
-
   updateSkillsForm:FormGroup;
   updateLanguageForm:FormGroup;
   updateEducationForm:FormGroup;
@@ -199,8 +198,43 @@ export class CourserResumeComponent implements OnInit {
   createForms(){
     this.createEducationUpdateForm();
     this.createExperienceUpdateForm();
+    this.createSkillUpdateForm();
+    this.createLanguageUpdateForm();
   }
 
+
+  createSkillUpdateForm(){
+    this.updateSkillsForm = this.formBuilder.group({
+      skillName:["",Validators.required]
+    })
+  }
+  createLanguageUpdateForm(){
+    this.updateLanguageForm = this.formBuilder.group({
+      languageName:["",Validators.required]
+    })
+  }
+
+  updateLanguage(id:number){
+    if(!this.updateLanguageForm.valid){
+      this.toastrService.error("An unexpected error occurred, Please try again");
+      return;
+    }
+    let language: LanguageForUpdate = Object.assign({}, this.updateLanguageForm.value);
+    this.store.dispatch(updateLanguage({id, language}));
+    this.updateLanguageForm.reset();
+    this.toastrService.success("Successfuly Updated");
+  }
+
+  updateSkill(id:number){
+    if(!this.updateSkillsForm.valid){
+      this.toastrService.error("An unexpected error occurred, Please try again");
+      return;
+    }
+    let skill: SkillForUpdate = Object.assign({}, this.updateSkillsForm.value);
+    this.store.dispatch(updateSkill({id, skill}));
+    this.updateSkillsForm.reset();
+    this.toastrService.success("Successfuly Updated");
+  }
 
   scrolToTop() {
     document.body.scrollIntoView({ behavior: 'smooth', block: 'start' });
