@@ -1,5 +1,10 @@
 export interface Skill {
   id: number;
   userId: number;
-  skillName: number;
+  skillName: string;
+}
+
+
+export interface SkillForUpdate{
+  skillName:string;
 }
