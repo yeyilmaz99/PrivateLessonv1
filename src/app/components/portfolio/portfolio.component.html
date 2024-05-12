@@ -3,6 +3,37 @@
     <div class="text-center mb-5">
       <h1 class="display-5 fw-bolder mb-0">
         <span class="text-gradient d-inline">{{header?.textString}}</span>
+        @if(isAdmin | async){
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#portfolioTextUpdateModal">Edit</button>
+
+                  
+          <!-- Modal -->
+          <div class="modal fade" id="portfolioTextUpdateModal" tabindex="-1" aria-labelledby="portfolioTextUpdateModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="portfolioTextUpdateModalLabel">Edit</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                      <div class="row">
+                        <form [formGroup]="updateHeaderForm">
+                        
+                          <div class="input-group input-group-sm mb-3">
+                              <span class="input-group-text" id="inputGroup-sizing-sm">Başlık</span>
+                              <input type="text" class="form-control" formControlName="text" placeholder="{{header?.textString}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                          </div>
+                        </form>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                  <button type="button" class="btn btn-primary"data-bs-dismiss="modal" (click)="updateTextString(header.id)">Değişiklikleri Uygula</button>
+                  </div>
+              </div>
+              </div>
+          </div>
+        }
       </h1>
     </div>
     <div class="row gx-5 justify-content-center">
@@ -34,24 +65,26 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+                      <form [formGroup]="updatePortfolyoPhotoForm">
                         <div class="row">
                             <div class="input-group input-group-sm mb-3">
                                 <span class="input-group-text" id="inputGroup-sizing-sm">Üst Yazı</span>
-                                <input type="text" class="form-control" placeholder="{{topPhoto?.headerText}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                <input type="text" class="form-control" formControlName="headerText" placeholder="{{topPhoto?.headerText}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                             </div>
                             <div class="input-group input-group-sm mb-3">
                                 <span class="input-group-text" id="inputGroup-sizing-sm">Açıklama</span>
-                                <input type="text" class="form-control" placeholder="{{topPhoto?.description}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                <input type="text" class="form-control" formControlName="description" placeholder="{{topPhoto?.description}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                             </div>
                             <div class="input-group mb-3">
                               <label class="input-group-text" for="inputGroupFile01">Fotoğraf</label>
-                              <input type="file" class="form-control" id="inputGroupFile01">
+                              <input type="file" class="form-control" formControlName="imageData" id="inputGroupFile01" (change)="onFileSelected($event)">
                             </div>
                         </div>
+                      </form>
                     </div>
                     <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
-                    <button type="button" class="btn btn-primary">Değişiklikleri Uygula</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="updatePortfolyoPhoto(topPhoto.id,topPhoto.isMain,topPhoto.isCertificate)" >Değişiklikleri Uygula</button>
                     </div>
                 </div>
                 </div>
@@ -86,24 +119,26 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+                      <form [formGroup]="updatePortfolyoPhotoForm2">
                         <div class="row">
                             <div class="input-group input-group-sm mb-3">
                                 <span class="input-group-text" id="inputGroup-sizing-sm">Üst Yazı</span>
-                                <input type="text" class="form-control" placeholder="{{bottomPhoto?.headerText}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                <input type="text" class="form-control" formControlName="headerText" placeholder="{{bottomPhoto?.headerText}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                             </div>
                             <div class="input-group input-group-sm mb-3">
                                 <span class="input-group-text" id="inputGroup-sizing-sm">Açıklama</span>
-                                <input type="text" class="form-control" placeholder="{{bottomPhoto?.description}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                <input type="text" class="form-control" formControlName="description" placeholder="{{bottomPhoto?.description}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                             </div>
                             <div class="input-group mb-3">
                               <label class="input-group-text" for="inputGroupFile01">Fotoğraf</label>
-                              <input type="file" class="form-control" id="inputGroupFile01">
+                              <input type="file" class="form-control" formControlName="imageData" id="inputGroupFile01" (change)="onFileSelected2($event)">
                             </div>
                         </div>
+                      </form>
                     </div>
                     <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
-                    <button type="button" class="btn btn-primary">Değişiklikleri Uygula</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="updatePortfolyoPhoto2(bottomPhoto.id,bottomPhoto.isMain,bottomPhoto.isCertificate)">Değişiklikleri Uygula</button>
                     </div>
                 </div>
                 </div>
