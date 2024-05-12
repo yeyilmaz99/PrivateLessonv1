@@ -3,12 +3,12 @@ import { FeatureConfig, Store } from '@ngrx/store';
 import { AppState } from '../../state/reducers';
 import { FETextToUpdateDto, FEndText } from '../../models/textsModel';
 import { getTextByType } from '../../state/texts/texts.selector';
-import { loadMainPhotos, loadPhotos } from '../../state/photos/photos.actions';
+import { loadMainPhotos, loadPhotos, updatePhoto } from '../../state/photos/photos.actions';
 import {
   getAllPhotos,
   getMainPhotos,
 } from '../../state/photos/photos.selector';
-import { Photo } from '../../models/photoModel';
+import { Photo, PhotoForUpdate } from '../../models/photoModel';
 import { AsyncPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { isAdmin } from '../auth/state/auth.selector';
@@ -38,6 +38,8 @@ export class ProjectsComponent implements OnInit {
   updateBoldTextForm:FormGroup;
   updateHeaderForm:FormGroup;
   updateItalicTextForm:FormGroup;
+  updateProjectForm:FormGroup;
+  isOpened:boolean = false;
 
 
   ngOnInit(): void {
@@ -50,6 +52,7 @@ export class ProjectsComponent implements OnInit {
 
   editPhotoModal(photo:Photo){
     this.editPhoto = photo
+    this.isOpened = true;
   }
 
 
@@ -88,6 +91,7 @@ export class ProjectsComponent implements OnInit {
     this.createDescriptionTextUpdateForm();
     this.createHeaderUpdateForm();
     this.createItalicTextUpdateForm();
+    this.createUpdateProjectForm();
   }
 
   createHeaderUpdateForm(){
@@ -156,6 +160,40 @@ export class ProjectsComponent implements OnInit {
     this.store.dispatch(updateText({id, text}));
     this.updateItalicTextForm.reset();
     this.toastrService.success("Successfuly Updated");
+  }
+
+
+
+  createUpdateProjectForm(){
+    this.updateProjectForm = this.formBuilder.group({
+      description:[""],
+      imageData:[File]
+    })
+  }
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0]
+    this.updateProjectForm.patchValue({ imageData: file });
+  }
+
+
+
+  updateProject(id:number,isMain:boolean,isCertificate:boolean){
+    if(!this.updateProjectForm.valid){
+      this.toastrService.error("Alanlar Boş Olmamalıdır.");
+    }else{
+      let photo: PhotoForUpdate = Object.assign({}, this.updateProjectForm.value);
+
+      const formData = new FormData();
+      console.log(photo.imageData)
+      const blob = new Blob([photo.imageData], {type:'image/jpeg'})
+      formData.append('ImageData', blob, 'image.png');
+      formData.append('Description',photo.description)
+      this.store.dispatch(updatePhoto({id,isMain,isCertificate,formData}));
+      this.updateProjectForm.reset();
+      this.toastrService.success("Successfuly Updated");
+      this.store.dispatch(loadMainPhotos());
+    }
   }
 
 
