@@ -116,6 +116,7 @@ export class HeaderComponent implements OnInit {
     const formData = new FormData();
 
     const blob = new Blob([photo.imageData], {type:'image/jpeg'})
+    console.log(blob)
     formData.append('ImageData', blob, 'image.png');
     this.store.dispatch(updatePhoto({id,isMain,isCertificate,formData}));
     this.updatePhotoForm.reset();
