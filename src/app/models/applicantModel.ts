@@ -1,12 +1,27 @@
 export interface Applicant {
-  id: number;
+  id?: number;
   mailText: string;
+  toPhone:string;
   toMail: string;
   toName: string;
   toSurname: string;
-  age: number;
+  kidName:string;
+  kidAge: number;
   daysnHours: DaysnHours[];
 }
+
+export interface MailDto{
+    mailText: string;
+    toMail: string;
+    toName: string;
+    toSurname: string;
+    toPhone:string;
+    kidAge: number;
+    kidName:string;
+    daysnHours: DaysnHours[];
+  }
+
+
 
 export interface DaysnHours {
   id: number;
