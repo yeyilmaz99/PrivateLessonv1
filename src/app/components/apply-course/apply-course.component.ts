@@ -6,18 +6,22 @@ import { FEndText } from '../../models/textsModel';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../state/reducers';
 import { getTextByType } from '../../state/texts/texts.selector';
-import { Applicant } from '../../models/applicantModel';
+import { Applicant, MailDto } from '../../models/applicantModel';
 import { getAllApplicants } from '../../state/applicants/applicants.selector';
 import { elementAt } from 'rxjs';
+import { FormBuilder, FormControl, FormGroup, MaxLengthValidator, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ApplicantService } from '../../services/applicantService/applicant.service';
 
 @Component({
   selector: 'app-apply-course',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, CourseScheduleComponent],
+  imports: [CommonModule, HeaderComponent, CourseScheduleComponent,ReactiveFormsModule],
   templateUrl: './apply-course.component.html',
   styleUrl: './apply-course.component.css',
 })
 export class ApplyCourseComponent {
+  private formBuilder = inject(FormBuilder);
+  private applicantService = inject(ApplicantService)
   days: string[] = [];
   timeSlots: any[] = [];
   store = inject(Store<AppState>);
@@ -25,10 +29,12 @@ export class ApplyCourseComponent {
   contactText: FEndText;
   contactMailHeader: FEndText;
   contactMailText: FEndText;
-
   applicants: Applicant[] = [];
-
-  constructor() {}
+  
+  applyForm:FormGroup;
+  applyId:number = 0;
+  constructor() {
+  }
 
   ngOnInit(): void {
     this.days = [
@@ -50,14 +56,19 @@ export class ApplyCourseComponent {
 
     this.getTexts();
     this.getApplicants();
+    this.createApplyCourseForm();
+
   }
 
   selectedTimes: string[] = [];
   selectedTimes1: dayAndHour[] = [];
   selectedButton: any = {};
+  errorReport: boolean = false;
+  daysNHoursError: boolean =false;
 
   buttonClick(time: string, day: string) {
-    let dh: dayAndHour = { hour: time, day: day };
+    this.applyId = this.applyId+1;
+    let dh: dayAndHour = { id:this.applyId, hour: time, day: day };
     let found = this.selectedTimes1.find(
       (item) => item.hour === time && item.day === day
     );
@@ -139,8 +150,88 @@ export class ApplyCourseComponent {
         break;
     }
   }
-}
+
+
+  createApplyCourseForm(){
+    this.applyForm =  this.formBuilder.group({
+      mailText:["",Validators.required],
+      toMail:["",[Validators.required,Validators.email]],
+      toName:["",Validators.required],
+      toSurname:["",Validators.required],
+      kidName:["",Validators.required],
+      kidAge:[,Validators.required],
+      toPhone:['',[Validators.required,Validators.pattern('^(\\+90)|0[0-9]{10}$')]],
+    })
+  }
+
+  ApplyCourse(){
+    if(this.applyForm.valid){
+      this.errorReport = false;
+      const daysnHoursControl = new FormControl(this.selectedTimes1);
+      this.applyForm.addControl('daysnHours',daysnHoursControl)
+      if(this.selectedTimes1.length >0){
+        this.daysNHoursError = false;
+        console.log(this.selectedTimes1.length);
+        let applicant: MailDto = Object.assign({}, this.applyForm.value);
+        this.applicantService.setApplicant(applicant).subscribe(r => {
+          console.log("başarılı");
+          this.getApplicants();
+          r.message;
+        })
+      }else{
+        this.daysNHoursError = true;
+      }
+
+    }else{
+      this.errorReport = true
+      console.log(this.applyForm)
+    }
+
+  }
+
+
+  showErrors(controlName:string){
+    const control = this.applyForm.get(controlName);
+    if(control.touched && !control.valid){
+      if(control.errors['required']){
+        return 'Bu alan zorunludur';
+      }
+      return null;  
+    }
+    return null;
+  }
+
+
+  
+  showPhoneErrors(){
+    const control = this.applyForm.get('toPhone');
+    if (control.touched && !control.valid) {
+      if (control.errors['pattern']) {
+        return 'Lütfen Telefon Numaranızı Doğru Giriniz! 05555555555 şeklinde olmalıdır.';
+      }
+    }
+    return null;
+  }
+
+
+  showEmailErrors(){
+    const control = this.applyForm.get('toMail');
+    if (control.touched && !control.valid) {
+      if (control.errors['email']) {
+        return 'Email doğru girilmelidir!';
+      }
+    }
+    return null;
+  }
+  }
+
+  
+  
+  
+
+
 interface dayAndHour {
+  id?:number;
   day: string;
   hour: string;
 }
