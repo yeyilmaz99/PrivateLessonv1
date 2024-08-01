@@ -11,18 +11,24 @@ import { getAllApplicants } from '../../state/applicants/applicants.selector';
 import { elementAt } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, MaxLengthValidator, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApplicantService } from '../../services/applicantService/applicant.service';
+import { DayNamePipe } from '../../pipes/day-name.pipe';
+import { Router } from '@angular/router';
+import { SweetAlert2LoaderService, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-apply-course',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, CourseScheduleComponent,ReactiveFormsModule],
+  imports: [CommonModule, HeaderComponent, CourseScheduleComponent,ReactiveFormsModule, DayNamePipe,SweetAlert2Module],
   templateUrl: './apply-course.component.html',
   styleUrl: './apply-course.component.css',
 })
 export class ApplyCourseComponent {
   private formBuilder = inject(FormBuilder);
-  private applicantService = inject(ApplicantService)
-  days: string[] = [];
+  private applicantService = inject(ApplicantService);
+  private router = inject(Router);
+  private sweetAlert = inject(SweetAlert2LoaderService)
+  days: number[] = [];
   timeSlots: any[] = [];
   store = inject(Store<AppState>);
   contactHeader: FEndText;
@@ -38,12 +44,12 @@ export class ApplyCourseComponent {
 
   ngOnInit(): void {
     this.days = [
-      'Pazartesi',
-      'Salı',
-      'Çarşamba',
-      'Perşembe',
-      'Cuma',
-      'Cumartesi',
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
     ];
     this.timeSlots = [
       { time: '17:00' },
@@ -66,7 +72,7 @@ export class ApplyCourseComponent {
   errorReport: boolean = false;
   daysNHoursError: boolean =false;
 
-  buttonClick(time: string, day: string) {
+  buttonClick(time: string, day: number) {
     this.applyId = this.applyId+1;
     let dh: dayAndHour = { id:this.applyId, hour: time, day: day };
     let found = this.selectedTimes1.find(
@@ -81,14 +87,14 @@ export class ApplyCourseComponent {
     }
   }
 
-  isSelected(time: string, day: string): boolean {
+  isSelected(time: string, day: number): boolean {
     let found = this.selectedTimes1.find(
       (item) => item.hour === time && item.day === day
     );
     return found !== undefined;
   }
 
-  isAlreadySelected(time: string, day: string): boolean {
+  isAlreadySelected(time: string, day: number): boolean {
     let found = this.alreadySelectedTimes.find(
       (item) => item.hour === time && item.day === day
     );
@@ -101,9 +107,9 @@ export class ApplyCourseComponent {
       for (let i = 0; i < this.applicants.length; i++) {
         const element = this.applicants[i];
         for (let j = 0; j < element.daysnHours.length; j++) {
-          let dh: dayAndHour = { hour: '', day: '' };
+          let dh: dayAndHour = { hour: '', day: 0 };
           dh.hour = element.daysnHours[j].hour;
-          dh.day = this.getNumber(element.daysnHours[j].day);
+          dh.day = element.daysnHours[j].day
           this.alreadySelectedTimes.push(dh);
         }
       }
@@ -125,31 +131,31 @@ export class ApplyCourseComponent {
     });
   }
 
-  getNumber(day: number): string {
-    switch (day) {
-      case 1:
-        return 'Pazartesi';
-        break;
-      case 2:
-        return 'Salı';
-        break;
-      case 3:
-        return 'Çarşamba';
-        break;
-      case 4:
-        return 'Perşembe';
-        break;
-      case 5:
-        return 'Cuma';
-        break;
-      case 6:
-        return 'Cumartesi';
-        break;
-      default:
-        return '';
-        break;
-    }
-  }
+  // getDay(day: number): number {
+  //   switch (day) {
+  //     case 1:
+  //       return 1;
+  //       break;
+  //     case 2:
+  //       return 2;
+  //       break;
+  //     case 3:
+  //       return 3;
+  //       break;
+  //     case 4:
+  //       return 'Perşembe';
+  //       break;
+  //     case 5:
+  //       return 'Cuma';
+  //       break;
+  //     case 6:
+  //       return 'Cumartesi';
+  //       break;
+  //     default:
+  //       return '';
+  //       break;
+  //   }
+  // }
 
 
   createApplyCourseForm(){
@@ -168,15 +174,22 @@ export class ApplyCourseComponent {
     if(this.applyForm.valid){
       this.errorReport = false;
       const daysnHoursControl = new FormControl(this.selectedTimes1);
-      this.applyForm.addControl('daysnHours',daysnHoursControl)
-      if(this.selectedTimes1.length >0){
+      this.applyForm.addControl('DaysnHours',daysnHoursControl)
+      if(this.selectedTimes1.length > 0){
         this.daysNHoursError = false;
-        console.log(this.selectedTimes1.length);
         let applicant: MailDto = Object.assign({}, this.applyForm.value);
         this.applicantService.setApplicant(applicant).subscribe(r => {
           console.log("başarılı");
           this.getApplicants();
           r.message;
+          this.applyForm.reset();
+          this.selectedTimes1.splice(0,this.selectedTimes1.length);
+          swal.fire({
+            title: "Başarılı!",
+            text: "Başvurunuz Alınmıştır",
+            icon: "success"
+          });
+          this.router.navigate(['/courserInfo'])
         })
       }else{
         this.daysNHoursError = true;
@@ -232,6 +245,6 @@ export class ApplyCourseComponent {
 
 interface dayAndHour {
   id?:number;
-  day: string;
+  day: number;
   hour: string;
 }
