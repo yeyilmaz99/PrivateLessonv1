@@ -20,6 +20,7 @@ import {
 import { PhotosEffects } from './state/photos/photos.effects';
 import { ToastrModule, provideToastr } from 'ngx-toastr';
 import { JWT_OPTIONS, JwtModule } from '@auth0/angular-jwt';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -44,7 +45,8 @@ export const appConfig: ApplicationConfig = {
         tokenGetter: tokenGetter
       },
     })),
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    importProvidersFrom(SweetAlert2Module.forRoot())
     
   ]
 };
